@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## STUFF DONE SO FAR:
 
-  1. Root Route (ShopCard PAGE):
+  ## 1. Root Route (ShopCard PAGE):
      -Default NEXTJS RootLayout.
      -3 divs (Heading1, ShopCard, Heading 2).
      -TranslateX + Opacity on Heading 1 and 2 for good UX on medium and large screens (less than 768 and 1024 px)
