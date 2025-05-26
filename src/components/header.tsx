@@ -13,7 +13,7 @@ export default function header() {
   return (
     <>
     
-    <header className="header-slide h-32 flex items-center justify-between bg-white mx-32">
+    <header className="header-slide h-32 flex items-center justify-between mx-32">
       <div className="flex space-x-4 items-center ">
         <Link className="hover:bg-gray-200 hover:rounded-xl p-1" href="/home">      <Store size={"30px"}/>
         </Link>
