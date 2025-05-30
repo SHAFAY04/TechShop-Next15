@@ -1,6 +1,5 @@
 import Link from "next/link";
-import bgImg from "public/home-bg.jpg";
-import { Anton, Audiowide, Black_Ops_One, Bungee_Inline, Orbitron, Oswald, Rubik_Mono_One, Tinos} from "next/font/google"; 
+import { Anton} from "next/font/google"; 
 
 const anton = Anton({
   subsets: ["latin"],

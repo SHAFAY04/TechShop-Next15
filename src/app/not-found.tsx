@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Space_Grotesk} from "next/font/google"
 import robot from "public/robot.jpg"
 
+
 export const metadata = {
     title:"Page not found!"
 }
