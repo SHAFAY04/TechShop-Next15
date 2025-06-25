@@ -20,8 +20,8 @@ export default function navButton({
   return (
     <button >
       {href?(<Link href={href}>
-        <Icon size={35} className={`${theme==="light" ? "hover:bg-gray-100 border-1 rounded-md  p-2":"hover:border-gray-200 border-gray-100 border-1 rounded-md  p-2"}`}/>
-      </Link>): (<Icon size={35} className='hover:bg-gray-100 border-1 rounded-md p-2'/>)}
+        <Icon size={35} className={`${theme==="light" ? "hover:bg-gray-100 border-1 rounded-md  p-2":" border-gray-600 border-1 hover:bg-gray-900 rounded-md  p-2"}`}/>
+      </Link>): (<Icon size={35} className=' border-1 rounded-md p-2'/>)}
     </button>
   )
 }

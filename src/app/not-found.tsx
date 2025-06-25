@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Space_Grotesk} from "next/font/google"
+
 export const metadata = {
     title:"Page not found!"
 }
