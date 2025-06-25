@@ -1,7 +1,5 @@
 import Image from "next/image"
 import { Space_Grotesk} from "next/font/google"
-import robot from "public/robot.jpg"
-
 
 export const metadata = {
     title:"Page not found!"
@@ -17,8 +15,6 @@ export default function NotFound() {
   return (
     <>
         <div className="flex justify-center h-screen items-center mx-24 relative">
-      
-      
               <h2 className={`${space.className} text-6xl `}>WE LOST THIS PAGE!</h2>
     
       <div className=" h-20 w-1 m-5 border-t-0 border-b-0 border-l-4 border-black " ></div>
