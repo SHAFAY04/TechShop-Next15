@@ -17,7 +17,7 @@ export default function Header() {
       <div className="flex space-x-4 items-center ">
         <Link className="hover:bg-gray-200 hover:rounded-xl p-1" href="/home">      <Store size={"30px"}/>
         </Link>
-      <h1 className={`${space.className} text-2xl `}>Dave's Computer Shop</h1>
+      <h1 className={`${space.className} text-2xl `}>Shafay's Tech Stop</h1>
       </div>
       <Nav/>
     </header>
