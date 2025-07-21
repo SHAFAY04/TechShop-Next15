@@ -9,7 +9,7 @@ const space = Space_Grotesk({
   
 })
 
-export default function header() {
+export default function Header() {
   return (
     <>
     
