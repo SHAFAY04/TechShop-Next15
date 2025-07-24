@@ -1,0 +1,35 @@
+
+By default, all components in the Next.js App Router are Server Components. They run only on the server (or Edge).
+
+What they do:
+
+They can fetch data directly from databases (like Neon using @neondatabase/serverless) or internal APIs.
+
+They render into HTML on the server before any JavaScript is sent to the browser.
+
+This pre-rendered HTML is what the browser receives on the initial load.
+
+SEO Benefit: Because the full HTML (including data fetched by Server Components) is ready on the server, search engine crawlers (web scrapers, as you call them) see the complete content immediately. This is fantastic for SEO because crawlers don't have to execute JavaScript to see your content, ensuring better indexing.
+
+Static pages with no query dependent variables": If a Server Component doesn't fetch dynamic data (e.g., a simple "About Us" page), it might even be statically generated at build time if it has no dynamic data fetching or uses revalidate options. This provides the fastest possible load times. Even if it fetches data on request (server-side rendering), it still renders to HTML on the server for SEO benefits.
+
+
+2. Client Components (The "Interactive" Bit)
+This is where your understanding needs a slight tweak.
+
+What they are: Client Components ('use client' directive) are for adding interactivity (state, event handlers, browser-specific APIs like localStorage). They are not inherently "no SEO."
+
+How they work with data and SEO:
+
+Initial Render (on Server): Even Client Components are initially pre-rendered to HTML on the server when the page first loads. This means any initial data or static content within them will still be part of the HTML sent to the browser and visible to search engines.
+
+Hydration (on Client): After the initial HTML is sent, Next.js then sends the JavaScript bundle for the Client Components. Once loaded, React "hydrates" these components, attaching event listeners and making them interactive. From this point on, their state and any new data fetches (e.g., from a user clicking a button to load more jobs) happen on the client.
+
+SEO Impact: If data is only fetched client-side (e.g., inside a useEffect after component mount) and is crucial for SEO, it might not be indexed as effectively by older crawlers (though modern Googlebot is quite capable of executing JS). The best practice for SEO-critical content is to fetch it in a Server Component and pass it as props to a Client Component, or render it directly in a Server Component.
+
+@neondatabase/serverless: This package is crucial because it allows that Next.js serverless function to make those efficient, ephemeral connections to Neon over HTTPS/WebSockets, instead of trying to maintain traditional long-lived TCP connections.
+
+So, yes, even for dynamic data like "cart items" or "jobs" that a user might interact with, the initial fetch can happen on the server (via a Server Component) for SEO, and subsequent interactive fetches (e.g., "load more," "filter") can still happen securely via Next.js API Routes (which also run on the server) or Server Actions, ensuring no sensitive "shit is exposed to the client."
+
+DO REFER TO THIS TO PROPERLY UNDERSTAND HOW NEXT SERVERLESS FUNCTIONS DIFFER FROM AN AVERAGE EXPRESS BACKEND SERVER AND WHY WE HAVE TO USE NEON SERVERLESS PROXY INSTEAD OF JUST SETTING UP OUR OWN DATABASE TCP CONNECTION IN NEXT'S SERVERLESS FUNCTIONS
+https://g.co/gemini/share/2b431337b94a
