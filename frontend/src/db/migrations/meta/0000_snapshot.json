@@ -1,5 +1,5 @@
 {
-  "id": "bdf4fb27-5c5b-4247-9576-6252856fef13",
+  "id": "8a10447e-2565-4136-9a69-3a8f87c1e9d7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -14,14 +14,14 @@
           "primaryKey": true,
           "notNull": true
         },
-        "firstName": {
-          "name": "firstName",
+        "firstname": {
+          "name": "firstname",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
-        "lastName": {
-          "name": "lastName",
+        "lastname": {
+          "name": "lastname",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
@@ -34,15 +34,21 @@
         },
         "phone": {
           "name": "phone",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "address1": {
+          "name": "address1",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
-        "address": {
-          "name": "address",
+        "address2": {
+          "name": "address2",
           "type": "varchar",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "city": {
           "name": "city",
@@ -52,12 +58,12 @@
         },
         "state": {
           "name": "state",
-          "type": "varchar(2)",
+          "type": "varchar",
           "primaryKey": false,
           "notNull": true
         },
-        "zip": {
-          "name": "zip",
+        "postal": {
+          "name": "postal",
           "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
@@ -75,39 +81,25 @@
           "notNull": true,
           "default": true
         },
-        "createdAt": {
-          "name": "createdAt",
+        "createdOn": {
+          "name": "createdOn",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
-        "updatedAt": {
-          "name": "updatedAt",
+        "updatedOn": {
+          "name": "updatedOn",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "customers_email_unique": {
-          "name": "customers_email_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
-        },
-        "customers_phone_unique": {
-          "name": "customers_phone_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "phone"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -154,18 +146,19 @@
           "notNull": true,
           "default": "'unassigned'"
         },
-        "createdAt": {
-          "name": "createdAt",
+        "createdOn": {
+          "name": "createdOn",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "default": "now()"
         },
-        "updatedAt": {
-          "name": "updatedAt",
+        "updatedOn": {
+          "name": "updatedOn",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false,
+          "default": "now()"
         }
       },
       "indexes": {},
