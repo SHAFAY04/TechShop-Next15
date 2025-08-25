@@ -13,13 +13,13 @@ type loginResponse={
 
 
 
-const authApiSlice=createApi({
-    reducerPath:'authApiSlice',
+export const sendAuthMailApiSlice=createApi({
+    reducerPath:'sendAuthMailApiSlice',
     baseQuery:fetchBaseQuery({baseUrl:'http://localhost:3003'}),
     endpoints:(builder)=> ({
         sendAuthMail: builder.mutation<loginResponse,loginBody>({
             query: (body:loginBody) => ({
-                url:`/auth?redirect=${body.destination}`,
+                url:`/auth/login?redirect=${body.destination}`,
                 method:"POST",
                 body
             })
@@ -29,6 +29,5 @@ const authApiSlice=createApi({
 })
 
 
-export const authApiSliceReducer=authApiSlice.reducer
-export const authApiSliceMiddleware=authApiSlice.middleware
-export const{useSendAuthMailMutation}=authApiSlice
+
+export const{useSendAuthMailMutation}=sendAuthMailApiSlice

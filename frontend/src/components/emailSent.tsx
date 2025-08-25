@@ -10,18 +10,21 @@ const font = Space_Grotesk({
   })
   
 
-export default function emailSent() {
+export default function EmailSent() {
 
     const { theme } = useTheme()
 
   return (
     <div className='flex justify-center items-center min-h-screen'>
-        <div className={`flex flex-col p-5 pt-5 justify-center items-center rounded-2xl shadow-2xl border-2 ${theme === "dark" ? " text-white" : ""}`}>
-        {theme === 'dark' ? <Image src={DarkModeLogo} alt='Tech Stop' height='100' width='100'></Image> : <Image src={whiteModeLogo} alt='Tech Stop' height='100' width='100'></Image>}
+      <div className={`pt-10 pb-20 flex flex-col justify-center items-center w-md rounded-2xl border-2 shadow-2xl ${theme === "dark" ? " text-white" : ""}`}>
+        {theme === 'dark' 
+          ? <Image src={DarkModeLogo} alt='Tech Stop' height='100' width='100'></Image> 
+          : <Image src={whiteModeLogo} alt='Tech Stop' height='100' width='100'></Image>}
         <h1 className={`${font.className} font-bold text-2xl pt-8`}>Is it really you?!</h1>
-        <label className={`${font.className} pt-8 mr-64 -ml-3 pb-2 text-lg`} >Please kindly check your email box for the confirmation email. </label>
-
-        </div>
+        <p className={`${font.className} pt-6 text-center max-w-[28rem]`}>
+          Please kindly check your email box for the confirmation email.
+        </p>
+      </div>
     </div>
   )
 }

@@ -9,8 +9,9 @@ import Image from 'next/image'
 import {useSendAuthMailMutation} from '@/redux/authApiSlice'
 import EmailSentComponent from '@/components/emailSent'
 import RequestFailedError from '@/components/requestFailedError'
-import { useLocation } from 'react-router-dom'
 import { useRouter,useSearchParams } from 'next/navigation'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
+import Loading from '@/components/Loading'
 
 const font = Space_Grotesk({
   weight: "400",
@@ -23,11 +24,10 @@ export default function Login() {
   const { theme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [emailState, setEmailState] = useState<string>()
-  const [error, setError] = useState<string | null>(null)
+  const [Mailerror, setError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [clicked,setClicked]=useState(false)
   const [EmailSent,setEmailSent]=useState(false)
-  const [sendAuthMail,{data,isLoading,isError}]=useSendAuthMailMutation()
+  const [sendAuthMail,{data,isLoading,isError,error,reset}]=useSendAuthMailMutation()
   
   const searchParams = useSearchParams()
   
@@ -55,27 +55,47 @@ export default function Login() {
     }
   }, [emailState])
 
+  const [userNotFoundError,setUserNotFoundError]=useState(false)
+  const [isOtherError,setIsOtherError]=useState(false)
+  const [otherError,setOtherError]=useState<unknown>()
+  type data={
+    message:string
+  }
   useEffect(()=>{
-    if(clicked && emailState){
-      sendAuthMail({email:emailState,destination:from})
-      setEmailSent(true)
+
+    if(isError && error as FetchBaseQueryError){
+      console.log(error)
+        if((error as FetchBaseQueryError).status==404){
+          setUserNotFoundError(true)
+        }
+        else{
+          setIsOtherError(true)
+          const data=(error as FetchBaseQueryError).data
+          setOtherError((data as data).message)
+        }
     }
-  },[clicked])
-
-  useEffect(()=>{
-
-  },[EmailSent])
+  },[error,isError])
 
   if (!mounted) return null // or show a loader
-
   
 
   return (
     isLoading ? (
-      <EmailSentComponent />
-    ) : isError ? (
-      <RequestFailedError />
-    ) : (
+      <Loading text='Please wait while we send you the confirmation email!' />
+    ) : isError && userNotFoundError ? (
+      <RequestFailedError 
+        text={`Oops! couldn't find this email registered.`}
+        onClose={() => { setUserNotFoundError(false); reset(); }} 
+      />
+    ) :  isError && isOtherError ? (
+      <RequestFailedError 
+        text={otherError as string}
+        onClose={() => { setIsOtherError(false); setOtherError(undefined); reset(); }} 
+      />
+    
+    ):data? (
+      <EmailSentComponent/>
+    ):(
       <main className="flex justify-center items-center min-h-screen">
         <div className={`pt-10 pb-20 flex flex-col justify-center items-center w-md rounded-2xl border-2 shadow-2xl ${theme === "dark" ? " text-white" : ""}`}>
           {theme === 'dark' ? <Image src={DarkModeLogo} alt='Tech Stop' height='100' width='100'></Image> : <Image src={whiteModeLogo} alt='Tech Stop' height='100' width='100'></Image>}
@@ -85,23 +105,23 @@ export default function Login() {
             ref={inputRef} 
             onChange={(e) => setEmailState(e.target.value)} 
             className={`rounded-md transition-colors p-3 w-xs h-12 border-1 focus:outline-none ${
-              error ? 'border-red-600' : 
+               Mailerror ? 'border-red-600' : 
               theme === 'dark' ? 'border-white' : 'border-black'
             }`}
             type="email" 
             id='emailBox' 
           />
-          {!error && emailState ? (
+          {!Mailerror && emailState ? (
             theme === 'dark' ? (
               <Button 
-                onClick={() => setClicked(true)} 
+                onClick={() => sendAuthMail({email:emailState,destination:from})} 
                 className={`${font.className} border-1 border-black mt-7 w-xs h-12 text-md bg-white text-black hover:bg-gray-300`}
               >
                 Continue
               </Button>
             ) : (
               <Button 
-                onClick={() => setClicked(true)} 
+                onClick={() => sendAuthMail({email:emailState,destination:from})} 
                 className={`${font.className} mt-7 w-xs h-12 text-md bg-black text-white hover:bg-neutral-800`}
               >
                 Continue
