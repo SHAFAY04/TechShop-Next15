@@ -3,6 +3,8 @@ import { AuthService } from "./auth.service";
 import { loginBodyDTO } from "./dto/login.dto";
 import { responseService } from "../shared/response.service";
 import type { Response } from "express";
+import { registerDTO } from "./dto/register.dto";
+
 
 
 type loginResponse={
@@ -14,8 +16,7 @@ type loginResponse={
 
 }
 type fallbackResponse={
-    accessToken:string,
-    refreshToken:string
+    accessToken:string
 }
 
 @Controller('auth')
@@ -26,11 +27,19 @@ export class authController{
         private readonly responseService:responseService
     ){}
 
-    @Post()
+
+    @Post('register')
+    async register(
+        @Body() registerBody:registerDTO,
+
+    ){
+
+    }
+
+    @Post('login')
     async login(@Body() loginBody: loginBodyDTO,
     @Query('redirect') redirect:string
 ):Promise<loginResponse>{
-
         return await this.authService.login(loginBody,redirect)
         
     }
@@ -39,7 +48,7 @@ export class authController{
     async fallback(
         @Query('token') token:string,
         @Res({passthrough:true}) response:Response
-    ){
+    ):Promise<fallbackResponse>{
         const result=await this.authService.fallback(token)
 
         response.cookie("refresh",result.refreshToken,{httpOnly:true, maxAge:24*60*60*1000})
