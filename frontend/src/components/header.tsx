@@ -13,15 +13,14 @@ export default function Header() {
   return (
     <>
     
-    <header className="header-slide h-32 flex items-center justify-between mx-32">
-      <div className="flex space-x-4 items-center ">
+    <header className=" header-slide h-32 w-full md:pb-10 lg:pb-10 flex items-center justify-between ">
+      <div className="flex md:space-x-4 items-center ">
         <Link className="hover:bg-gray-200 hover:rounded-xl p-1" href="/home">      <Store size={"30px"}/>
         </Link>
-      <h1 className={`${space.className} text-2xl `}>Shafay's Tech Stop</h1>
+      <h1 className={`${space.className} text-2xl `}>TechStop</h1>
       </div>
       <Nav/>
     </header>
-    <hr className="mx-24 text-gray"/>
     </>
   )
 }

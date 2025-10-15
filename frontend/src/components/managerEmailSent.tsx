@@ -8,13 +8,9 @@ const font = Space_Grotesk({
     weight: "400",
     subsets: ["latin"]
   })
-  type emailSentProps={
-    login?:true,
-    register?:true
-    registerManager?:true
-  }
+  
 
-export default function EmailSent({login,register,registerManager}:emailSentProps) {
+export default function managerEmailSent() {
 
     const { theme } = useTheme()
 
@@ -24,7 +20,7 @@ export default function EmailSent({login,register,registerManager}:emailSentProp
         {theme === 'dark' 
           ? <Image src={DarkModeLogo} alt='Tech Stop' height='100' width='100'></Image> 
           : <Image src={whiteModeLogo} alt='Tech Stop' height='100' width='100'></Image>}
-        <h1 className={`${font.className} font-bold text-2xl pt-8`}>{login?`Is it really you?!`:register?`Is this your mail?`:`Adding a new Employee?`}</h1>
+        <h1 className={`${font.className} font-bold text-2xl pt-8`}>Adding a new Employee?</h1>
         <p className={`${font.className} pt-6 mx-10 text-center max-w-[28rem]`}>
           Please kindly check your email box for the confirmation email.
         </p>

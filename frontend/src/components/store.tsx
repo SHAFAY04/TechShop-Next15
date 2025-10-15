@@ -2,11 +2,13 @@
 import { sendAuthMailApiSlice } from '@/redux/authApiSlice'
 import { authFallbackApiSlice } from '@/redux/authFallbackApiSlice'
 import { authSliceReducer } from '@/redux/authSlice'
+import { stateSliceReducer } from '@/redux/stateSlice'
 import {configureStore} from '@reduxjs/toolkit'
 export const store= configureStore({
 
     reducer:{
         "auth":authSliceReducer,
+        "state":stateSliceReducer,
         "sendAuthMailApiSlice":sendAuthMailApiSlice.reducer,
         "authFallbackApiSlice": authFallbackApiSlice.reducer
     }, middleware: (getDefaultMiddleware) =>

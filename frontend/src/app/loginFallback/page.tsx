@@ -1,10 +1,12 @@
+"use client"
+
 import { useGetUserQuery } from '@/redux/authFallbackApiSlice'
 import { useSearchParams, useRouter } from 'next/navigation' // Use consistent imports
 import React, { useEffect } from 'react'
 import Loading from '@/components/Loading'
 import Error from '@/components/Error'
-import { useDispatch } from 'react-redux'
-import { storeDispatch } from '@/components/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { rootState, storeDispatch } from '@/components/store'
 import { setUserState } from '@/redux/authSlice'
 
 export default function LoginFallback() {
@@ -16,33 +18,27 @@ export default function LoginFallback() {
   const { data, isLoading, isSuccess, isError } = useGetUserQuery(token as string)
   const dispatch = useDispatch<storeDispatch>()
 
-  // Handle setting user data
-  useEffect(() => {
-    if (data) {
-      console.log(data)
-      dispatch(setUserState({ ...data }))
-    }
-  }, [data])
-
-  // Handle redirect after successful login
   useEffect(() => {
     if (isSuccess && data) {
-      const timer = setTimeout(() => {
-        router.replace(redirect)
-      }, 1000)
+      console.log('data ', data)
+      dispatch(setUserState({ ...data }))   
       
-      return () => clearTimeout(timer) 
+      setTimeout(()=>{
+        router.replace(redirect)
+      },1500)
     }
+
+
   }, [isSuccess, data])
 
   return (
     <>
       {isLoading ? (
-        <Loading text='Please wait while we redirect you to the Techstop!' />
+        <Loading text='Please wait!' />
       ) : isError ? (
         <Error text='Oops! the link expired please try logging in again'/>
       ) : isSuccess ? (
-        <Loading text='Please wait while we redirect you to the Techstop!'/>
+        <Loading text='redirecting you to the Techstop!'/>
       ) : null}
     </>
   )

@@ -12,6 +12,7 @@ import RequestFailedError from '@/components/requestFailedError'
 import { useRouter,useSearchParams } from 'next/navigation'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 import Loading from '@/components/Loading'
+import { SerializedError } from '@reduxjs/toolkit'
 
 const font = Space_Grotesk({
   weight: "400",
@@ -61,20 +62,36 @@ export default function Login() {
   type data={
     message:string
   }
-  useEffect(()=>{
-
-    if(isError && error as FetchBaseQueryError){
-      console.log(error)
-        if((error as FetchBaseQueryError).status==404){
-          setUserNotFoundError(true)
+  useEffect(() => {
+    if (isError) {
+      console.log(error);
+      const fetchError = error as FetchBaseQueryError;
+  
+      // Check for a numerical status code (like 404 or 504)
+      if (typeof fetchError.status === 'number') {
+        if (fetchError.status === 404) {
+          setUserNotFoundError(true);
+        } else if (fetchError.status === 504) {
+          setIsOtherError(true);
+          setOtherError('504 Gateway Timeout: Auth Microservice down');
         }
-        else{
-          setIsOtherError(true)
-          const data=(error as FetchBaseQueryError).data
-          setOtherError((data as data).message)
-        }
+      }
+      // Check for a string status code like 'PARSING_ERROR'
+      else if (fetchError.status === 'PARSING_ERROR') {
+        console.log(typeof error);
+        setIsOtherError(true);
+        setOtherError('Auth Microservice down');
+      } else if (fetchError.status === 'FETCH_ERROR') {
+        console.log(typeof error);
+        setIsOtherError(true);
+        setOtherError('Couldnt communicate with server');
+      }else {
+        // Generic error handling
+        setIsOtherError(true);
+        setOtherError('An unexpected error occurred.');
+      }
     }
-  },[error,isError])
+  }, [error, isError]);
 
   if (!mounted) return null // or show a loader
   
@@ -94,7 +111,7 @@ export default function Login() {
       />
     
     ):data? (
-      <EmailSentComponent/>
+      <EmailSentComponent login/>
     ):(
       <main className="flex justify-center items-center min-h-screen">
         <div className={`pt-10 pb-20 flex flex-col justify-center items-center w-md rounded-2xl border-2 shadow-2xl ${theme === "dark" ? " text-white" : ""}`}>

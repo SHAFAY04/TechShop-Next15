@@ -14,7 +14,7 @@ export default function requireAuth({
 
     const router= useRouter()
 
-    const authenticated= useSelector((state:rootState)=>state.auth.username)
+    const authenticated= useSelector((state:rootState)=>state.auth.name)
     const pathname=usePathname()
 
 
