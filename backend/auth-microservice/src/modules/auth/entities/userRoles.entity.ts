@@ -8,6 +8,9 @@ export class userRoles{
     userId:number
 
     @Column()
+    admin:boolean
+
+    @Column()
     customer:boolean
 
     @Column()

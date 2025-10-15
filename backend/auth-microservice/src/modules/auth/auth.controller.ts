@@ -4,6 +4,7 @@ import { loginBodyDTO } from "./dto/login.dto";
 import { responseService } from "../shared/response.service";
 import type { Response } from "express";
 import { registerDTO } from "./dto/register.dto";
+import { registerManagerDTO } from "./dto/registerManager";
 
 
 
@@ -15,11 +16,20 @@ type loginResponse={
    payload?:object
 
 }
+type rolesType={
+    userId:number,
+    admin:boolean,
+    manager:boolean,
+    customer:boolean
+}
 type fallbackResponse={
-    accessToken:string
+    name:string,
+    email:string,
+    accessToken:string,
+    roles:rolesType
 }
 
-@Controller('auth')
+@Controller('/')
 export class authController{
 
     constructor(
@@ -31,15 +41,22 @@ export class authController{
     @Post('register')
     async register(
         @Body() registerBody:registerDTO,
-
     ){
+        return await this.authService.register(registerBody)
+    }
 
+    @Post('register-manager')
+    async registerManager(
+        @Body() registerBody:registerManagerDTO,
+    ){
+        return await this.authService.registerManager(registerBody)
     }
 
     @Post('login')
     async login(@Body() loginBody: loginBodyDTO,
     @Query('redirect') redirect:string
 ):Promise<loginResponse>{
+    console.log('working')
         return await this.authService.login(loginBody,redirect)
         
     }
@@ -54,8 +71,22 @@ export class authController{
         response.cookie("refresh",result.refreshToken,{httpOnly:true, maxAge:24*60*60*1000})
 
         return {
-            accessToken:result.accessToken
+            name:result.name,
+            email:result.email,
+            accessToken:result.accessToken,
+            roles:result.roles
         }
+        
+    }
+    @Post('/EmployeeRegisterFallback')
+    async EmployeeRegisterfallback(
+        @Query('token') token:string,
+    ):Promise<loginResponse>{
+        
+        
+        return await this.authService.employeeRegisterFallback(token)
+
+      
         
     }
 }

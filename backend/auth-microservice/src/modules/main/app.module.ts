@@ -4,9 +4,7 @@ import { AppService } from './app.service';
 import { AuthModule } from '../auth/auth.module';
 import { SharedModule } from '../shared/shared.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import  cors from 'cors'
 import * as dotenv from 'dotenv'
-import { corsOptions } from 'src/common/config/corsOptions';
 
 dotenv.config()
 
@@ -20,9 +18,5 @@ dotenv.config()
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(cors(corsOptions)).forRoutes('*')
-  }
+export class AppModule  {
 }
