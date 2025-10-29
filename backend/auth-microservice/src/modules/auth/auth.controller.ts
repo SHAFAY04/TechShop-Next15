@@ -1,14 +1,22 @@
-import { Body, Controller, Get, Param, Post, Query, Res } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Param, Post, Query, RequestMethod, Res,Request } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { loginBodyDTO } from "./dto/login.dto";
 import { responseService } from "../shared/response.service";
-import type { Response } from "express";
+import type { Request as expressRequest, Response } from "express";
 import { registerDTO } from "./dto/register.dto";
 import { registerManagerDTO } from "./dto/registerManager";
 
 
 
 type loginResponse={
+
+    statusCode:number,
+   success:boolean,
+   message:string,
+   payload?:object
+
+}
+type refreshResponse={
 
     statusCode:number,
    success:boolean,
@@ -29,7 +37,7 @@ type fallbackResponse={
     roles:rolesType
 }
 
-@Controller('/')
+@Controller('auth')
 export class authController{
 
     constructor(
@@ -78,15 +86,20 @@ export class authController{
         }
         
     }
-    @Post('/EmployeeRegisterFallback')
+    @Get('/EmployeeRegisterFallback')
     async EmployeeRegisterfallback(
         @Query('token') token:string,
     ):Promise<loginResponse>{
         
         
         return await this.authService.employeeRegisterFallback(token)
-
-      
+    }
+    @Get('/refresh')
+    async refresh(
+      @Request() req:expressRequest
+    ){
         
+        
+        return await this.authService.refresh(req)
     }
 }

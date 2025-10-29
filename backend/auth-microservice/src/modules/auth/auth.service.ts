@@ -1,4 +1,4 @@
-import { ConflictException, GatewayTimeoutException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, GatewayTimeoutException, Injectable, InternalServerErrorException, NotFoundException, RequestMethod, UnauthorizedException } from "@nestjs/common";
 import { user } from "./entities/user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -12,6 +12,7 @@ import { uniqueNamesGenerator } from "unique-names-generator";
 import { customTechConfig } from '../../common/config/userNameGenConfig'
 import { registerManagerDTO } from "./dto/registerManager";
 import { JwtPayload } from "jsonwebtoken";
+import { Request } from "express";
 
 dotenv.config()
 
@@ -33,6 +34,18 @@ export class AuthService{
         private userRolesRepo:Repository<userRoles>,
         private readonly emailService:emailService
     ){}
+
+    async refresh(req:Request){
+
+        const cookies= req.headers.cookie
+
+        console.log(cookies)
+        if(!cookies?.includes("refresh")){
+            throw new UnauthorizedException('Token not found in cookies')
+        }
+
+
+    }
 
     async register(registerBody:registerDTO,redirect?:string){
 
@@ -154,7 +167,7 @@ export class AuthService{
         }
 
         const accessSecret=process.env.ACCESS_SECRET!
-        const accessToken= jwt.sign(payload,accessSecret,{expiresIn:'30s'})
+        const accessToken= jwt.sign(payload,accessSecret,{expiresIn:'60s'})
 
         const refreshSecret=process.env.REFRESH_SECRET!
         const refreshToken=jwt.sign(payload,refreshSecret,{expiresIn:'1d'})
@@ -178,7 +191,7 @@ export class AuthService{
             throw new InternalServerErrorException('updating the user failed')
         }
     } catch (error) {
-        throw new Error(error)
+        throw new UnauthorizedException(error)
     }
         
     }

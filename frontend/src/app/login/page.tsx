@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Space_Grotesk } from 'next/font/google'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
-import DarkModeLogo from 'public/logoDark.png'
-import whiteModeLogo from 'public/logo White.png'
 import Image from 'next/image'
 import {useSendAuthMailMutation} from '@/redux/authApiSlice'
 import EmailSentComponent from '@/components/emailSent'
@@ -115,7 +113,7 @@ export default function Login() {
     ):(
       <main className="flex justify-center items-center min-h-screen">
         <div className={`pt-10 pb-20 flex flex-col justify-center items-center w-md rounded-2xl border-2 shadow-2xl ${theme === "dark" ? " text-white" : ""}`}>
-          {theme === 'dark' ? <Image src={DarkModeLogo} alt='Tech Stop' height='100' width='100'></Image> : <Image src={whiteModeLogo} alt='Tech Stop' height='100' width='100'></Image>}
+          {theme === 'dark' ? <img src="https://pub-d81cf4a8a26d4e8d8a83a8d23172d5e5.r2.dev/logoDark.png" height='100' width='100' alt="Tech Stop" /> :  <img src="https://pub-d81cf4a8a26d4e8d8a83a8d23172d5e5.r2.dev/logo White.png" height='100' width='100' alt="Tech Stop" /> }
           <h1 className={`${font.className} font-bold text-2xl pt-8`}>Hello Friend! Welcome Back</h1>
           <label className={`${font.className} pt-8 mr-64 -ml-3 pb-2 text-lg`} htmlFor="emailBox">Email</label>
           <input 
