@@ -11,7 +11,7 @@ dotenv.config()
 @Module({
   imports: [TypeOrmModule.forRoot({
     type:'postgres',
-    url:'postgresql://neondb_owner:npg_htDC3NFfWU6G@ep-silent-cherry-a15hctr2-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require',
+    url:process.env.DATABASE_URL,
     autoLoadEntities: true,
     synchronize: true,
   }),AuthModule, SharedModule],
