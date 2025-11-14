@@ -3,11 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ReviewsModule } from './reviews/reviews.module';
+import * as dotenv from "dotenv"
+
+dotenv.config()
 
 @Module({
   imports: [TypeOrmModule.forRoot({
     type:'postgres',
-    url:"postgresql://neondb_owner:npg_yC27WEQSgmdP@ep-falling-wildflower-a1vtgvk2-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+    url:process.env.database_url,
     synchronize:true,
 
   }), ReviewsModule],
