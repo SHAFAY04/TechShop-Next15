@@ -1,0 +1,28 @@
+services:
+  dbz-inventory:
+    image: debezium/server:2.5.4.Final
+    container_name: dbz-inventory
+    volumes:
+      - ./conf/inventory.properties:/debezium/conf/application.properties:ro
+    restart: always
+
+  # dbz-pricing:
+  #   image: debezium/server:2.5.4.Final
+  #   container_name: dbz-pricing
+  #   volumes:
+  #     - ./conf/pricing.properties:/debezium/conf/application.properties:ro
+  #   restart: always
+
+  # dbz-reviews:
+  #   image: debezium/server:2.5.4.Final
+  #   container_name: dbz-reviews
+  #   volumes:
+  #     - ./conf/reviews.properties:/debezium/conf/application.properties:ro
+  #   restart: always
+
+  # dbz-auth:
+  #   image: debezium/server:2.5.4.Final
+  #   container_name: dbz-auth
+  #   volumes:
+  #     - ./conf/auth.properties:/debezium/conf/application.properties:ro
+  #   restart: always

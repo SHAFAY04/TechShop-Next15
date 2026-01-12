@@ -5,6 +5,8 @@ import cors from 'cors'
 import { corsOptions } from './common/corsConfig';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtMiddleware } from './middlewares/jwt.middleware';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { EventRouterModule } from './event-router/event-router.module';
 
 @Module({
   imports: [
@@ -13,7 +15,9 @@ import { JwtMiddleware } from './middlewares/jwt.middleware';
       secret: process.env.ACCESS_SECRET, 
       // Note: You need the secret here as well because jwtModule is supposed to be used by GUARDS and STRATEGIES but since we are going to use 
       //simply a custom JWTMiddlware then we have to use the jwtservice provided by this jwtModule. and jwtService will also get your secret to compare the token from here because you had to specify the secret while importing the jwtModule
-    }),],
+    }),
+    EventRouterModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

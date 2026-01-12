@@ -1,10 +1,12 @@
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { salesChannel } from "./salesChannel.entity";
 import { products } from "./products.entity";
-products
 
 @Entity()
 export class channelProducts{
+
+    @PrimaryGeneratedColumn()
+    id:number
 
     @Column()
     productId:number

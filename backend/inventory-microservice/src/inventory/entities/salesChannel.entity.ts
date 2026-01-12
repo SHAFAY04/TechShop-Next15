@@ -11,6 +11,9 @@ export class salesChannel{
     @Column()
     name:string
 
+    @Column()
+    currency_code:string
+
     @OneToMany(()=>channelProducts,(channelProducts)=>channelProducts.saleschannel,{})
     channelProducts:channelProducts[]
 }

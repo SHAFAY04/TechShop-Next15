@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn,ManyToOne, JoinColumn, OneToMany, OneToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn,ManyToOne, JoinColumn, OneToMany, OneToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { category } from "./category.entity";
 import { channelProducts } from "./channelProducts.entity";
 import { MonitorarmsDescription } from "./armsDescription.entity";
@@ -25,6 +25,12 @@ export class products{
 
     @Column()
     description:string
+
+    @CreateDateColumn()
+    createdAt:Date
+
+    @UpdateDateColumn()
+    updatedAt:Date
 
     @ManyToOne(()=>category,(category)=>category.products,{})
     @JoinColumn({name:'categoryId'})

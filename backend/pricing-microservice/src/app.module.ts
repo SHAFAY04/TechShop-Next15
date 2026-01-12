@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { PricingModule } from './pricing/pricing.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from "dotenv"
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 dotenv.config()
 
@@ -13,7 +14,19 @@ dotenv.config()
     url:process.env.database_url,
     synchronize:true
 
-  })],
+  }),
+  ClientsModule.register([{
+    name:'NOTIFICATION_SERVICE',
+    transport:Transport.RMQ,
+    options:{
+      queue:'notification_queue',
+      urls:['amqps://utosfroo:PfjO9mwgwxgbRx8PdRR2ZMHVIxyyQ0qD@gorilla.lmq.cloudamqp.com/utosfroo'],
+      queueOptions: {
+        durable:true
+      },
+    }
+  }])
+],
   controllers: [AppController],
   providers: [AppService],
 })
